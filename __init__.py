@@ -1,1 +1,1 @@
-from .ZlibCow import *
+from .zlibow import *
