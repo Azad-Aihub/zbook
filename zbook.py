@@ -11,47 +11,46 @@ from .zlibrary import Zlibrary
 
 
 @plugins.register(
-    name="Zbook",
-    desc="A plugin that download ebooks from z-library by Zlibrary",
-    version="0.1",
+    name="zbooker",
+    desc="A plugin.",
+    version="0.1.0",
     author="leanfly",
-    desire_priority=99,
+    desire_priority=99
 )
-class Zbook(Plugin):
-
+class ZBooker(Plugin):
     def __init__(self):
-        super().__init__
+        super().__init__()
+        self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
 
-        try:
-            self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
-
-            curdir = os.path.dirname(__file__)
-
-            # 读取配置文件
-            config_path = os.path.join(curdir, "config.json")
-            conf = None
-
-            if not os.path.exists(config_path):
+        curdir = os.path.dirname(__file__)
+        # 读取配置文件
+        config_path = os.path.join(curdir, "config.json")
+        conf = None
+        if not os.path.exists(config_path):
                 logger.debug(f"Zbook 配置文件不存在{config_path}")
             
-            with open(config_path, "r", encoding="utf-8") as f:
-                conf = json.load(f)
-            
-            # 指定z-library登录用户信息
-            self.remix_userkey = conf["remix_userkey"]
-            self.remix_userid = conf["remix_userid"]
-            self.zlib_email = conf["zlib_email"]
-            self.zlib_pass = conf["zlib_pass"]
+        with open(config_path, "r", encoding="utf-8") as f:
+            conf = json.load(f)
+        
+        # 指定z-library登录用户信息
+        self.remix_userkey = conf["remix_userkey"]
+        self.remix_userid = conf["remix_userid"]
+        self.zlib_email = conf["zlib_email"]
+        self.zlib_pass = conf["zlib_pass"]
 
-            # 指定书籍保存目录
-            self.books_dir = os.path.join(curdir, "books")
+        # 指定书籍保存目录
+        self.books_dir = os.path.join(curdir, "books")
 
-            logger.info("[Zbook] inited")
 
-        except Exception as e:
-            logger.error(f"[Zbook] init error: {e}")
+        logger.info(f"[ZBooker] inited ")
+
 
     def on_handle_context(self, e_context: EventContext):
+        """
+        消息处理逻辑
+        :param e_context: 消息上下文
+        """
+        
         if e_context["context"].type != ContextType.TEXT:
             return
         
@@ -77,18 +76,24 @@ class Zbook(Plugin):
             library = Zlibrary(email=self.zlib_email, password=self.zlib_pass)
 
         book = library.search(book_name)
+        # logger.info(book)
 
-        if book == []:
+        if book["success"] != 1:
+            return
+        
+        books = book["books"]
+        if books == []:
             return
 
-        filename, filecontent = library.downloadBook(book[0])
+        filename, filecontent = library.downloadBook(books[0])
 
         book_path = os.path.join(self.books_dir, filename)
         with open(book_path, "wb") as bookfile:
             bookfile.write(filecontent)
 
         return book_path
-    
+
+
 
 def _send_file(file_path, e_context):
     reply = Reply()
