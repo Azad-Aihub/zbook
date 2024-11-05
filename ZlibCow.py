@@ -17,7 +17,7 @@ from .Zlibrary import Zlibrary
     desc="A plugin that download ebooks from z-library by Zlibrary",
     version="0.1",
     author="leanfly",
-    desire_priority=90,
+    desire_priority=999,
 )
 class ZlibCow(Plugin):
 
@@ -47,8 +47,10 @@ class ZlibCow(Plugin):
         self.books_dir = os.path.join(curdir, "books")
 
         self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
+        self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
+        self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
 
-        logger.info("[Zlib] inited")
+        logger.info("[ZlibCow] inited")
 
 
     def on_handle_context(self, e_context: EventContext):
