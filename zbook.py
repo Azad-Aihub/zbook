@@ -1,9 +1,7 @@
 import plugins
-import requests
 from bridge.context import ContextType
 from bridge.reply import Reply, ReplyType
 from common.log import logger
-from common.tmp_dir import TmpDir
 from plugins import *
 
 import os
@@ -17,7 +15,7 @@ from .zlibrary import Zlibrary
     desc="A plugin that download ebooks from z-library by Zlibrary",
     version="0.1",
     author="leanfly",
-    desire_priority=999,
+    desire_priority=99,
 )
 class Zbook(Plugin):
 
@@ -34,8 +32,7 @@ class Zbook(Plugin):
             conf = None
 
             if not os.path.exists(config_path):
-                logger.debug(f"配置文件不存在{config_path}")
-                return
+                logger.debug(f"Zbook 配置文件不存在{config_path}")
             
             with open(config_path, "r", encoding="utf-8") as f:
                 conf = json.load(f)
@@ -50,6 +47,7 @@ class Zbook(Plugin):
             self.books_dir = os.path.join(curdir, "books")
 
             logger.info("[Zbook] inited")
+
         except Exception as e:
             logger.error(f"[Zbook] init error: {e}")
 
@@ -63,10 +61,10 @@ class Zbook(Plugin):
             book_name = content.split("zlib")[-1].strip()
             book_path = self.download_book(book_name)
             if not book_path:
-                _send_text("没有找到相关书籍")
+                _send_text("没有找到相关书籍", e_context)
+                return
             
             _send_file(book_path, e_context)
-
             return
 
     def download_book(self, book_name):
