@@ -13,7 +13,7 @@ from .Zlibrary import Zlibrary
 
 
 @plugins.register(
-    name="zlibCow",
+    name="ZlibCow",
     desc="A plugin that download ebooks from z-library by Zlibrary",
     version="0.1",
     author="leanfly",
