@@ -19,7 +19,7 @@ from .Zlibrary import Zlibrary
     author="leanfly",
     desire_priority=90,
 )
-class ZlibCow(Plugins):
+class ZlibCow(Plugin):
 
     def __init__(self):
         super().__init__
