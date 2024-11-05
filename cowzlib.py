@@ -23,6 +23,7 @@ class ZlibCow(Plugin):
 
     def __init__(self):
         super().__init__
+        self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
 
         curdir = os.path.dirname(__file__)
 
@@ -45,10 +46,6 @@ class ZlibCow(Plugin):
 
         # 指定书籍保存目录
         self.books_dir = os.path.join(curdir, "books")
-
-        self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
-        self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
-        self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
 
         logger.info("[ZlibCow] inited")
 
