@@ -1,1 +1,1 @@
-from .cowzlib import *
+from .zbook import *
