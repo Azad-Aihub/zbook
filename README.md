@@ -9,5 +9,6 @@
 配置文件里有四个选项，都是用于登录z-library。
 
 根据`Zlibrary-API`大佬的说明，配置文件建议使用 `remix_userid` 和 `remix_userkey`。
+
 获取方式是登录网页版，然后从cookie里获取。
 
