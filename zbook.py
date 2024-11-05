@@ -50,7 +50,7 @@ class Zbook(Plugin):
             self.books_dir = os.path.join(curdir, "books")
 
             logger.info("[Zbook] inited")
-        except:
+        except Exception as e:
             logger.error(f"[Zbook] init error: {e}")
 
     def on_handle_context(self, e_context: EventContext):
