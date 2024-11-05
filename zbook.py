@@ -23,32 +23,35 @@ class Zbook(Plugin):
 
     def __init__(self):
         super().__init__
-        self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
 
-        curdir = os.path.dirname(__file__)
+        try:
+            self.handlers[Event.ON_HANDLE_CONTEXT] = self.on_handle_context
 
-        # 读取配置文件
-        config_path = os.path.join(curdir, "config.json")
-        conf = None
+            curdir = os.path.dirname(__file__)
 
-        if not os.path.exists(config_path):
-            logger.debug(f"配置文件不存在{config_path}")
-            return
-        
-        with open(config_path, "r", encoding="utf-8") as f:
-            conf = json.load(f)
-        
-        # 指定z-library登录用户信息
-        self.remix_userkey = conf["remix_userkey"]
-        self.remix_userid = conf["remix_userid"]
-        self.zlib_email = conf["zlib_email"]
-        self.zlib_pass = conf["zlib_pass"]
+            # 读取配置文件
+            config_path = os.path.join(curdir, "config.json")
+            conf = None
 
-        # 指定书籍保存目录
-        self.books_dir = os.path.join(curdir, "books")
+            if not os.path.exists(config_path):
+                logger.debug(f"配置文件不存在{config_path}")
+                return
+            
+            with open(config_path, "r", encoding="utf-8") as f:
+                conf = json.load(f)
+            
+            # 指定z-library登录用户信息
+            self.remix_userkey = conf["remix_userkey"]
+            self.remix_userid = conf["remix_userid"]
+            self.zlib_email = conf["zlib_email"]
+            self.zlib_pass = conf["zlib_pass"]
 
-        logger.info("[ZlibCow] inited")
+            # 指定书籍保存目录
+            self.books_dir = os.path.join(curdir, "books")
 
+            logger.info("[Zbook] inited")
+        except:
+            logger.error(f"[Zbook] init error: {e}")
 
     def on_handle_context(self, e_context: EventContext):
         if e_context["context"].type != ContextType.TEXT:
