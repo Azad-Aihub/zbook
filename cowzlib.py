@@ -9,7 +9,7 @@ from plugins import *
 import os
 import json
 
-from .Zlibrary import Zlibrary
+from .zlibrary import Zlibrary
 
 
 @plugins.register(
