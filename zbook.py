@@ -13,13 +13,13 @@ from .zlibrary import Zlibrary
 
 
 @plugins.register(
-    name="ZlibCow",
+    name="Zbook",
     desc="A plugin that download ebooks from z-library by Zlibrary",
     version="0.1",
     author="leanfly",
     desire_priority=999,
 )
-class ZlibCow(Plugin):
+class Zbook(Plugin):
 
     def __init__(self):
         super().__init__
