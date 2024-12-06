@@ -11,11 +11,11 @@ from .zlibrary import Zlibrary
 
 
 @plugins.register(
-    name="zbooker",
-    desc="A plugin.",
+    name="zbook",
+    desc="A plugin",
     version="0.1.0",
     author="leanfly",
-    desire_priority=99
+    desire_priority=999
 )
 class ZBooker(Plugin):
     def __init__(self):
@@ -27,7 +27,7 @@ class ZBooker(Plugin):
         config_path = os.path.join(curdir, "config.json")
         conf = None
         if not os.path.exists(config_path):
-                logger.debug(f"Zbook 配置文件不存在{config_path}")
+                logger.debug(f"zbook 配置文件不存在{config_path}")
             
         with open(config_path, "r", encoding="utf-8") as f:
             conf = json.load(f)
@@ -42,7 +42,7 @@ class ZBooker(Plugin):
         self.books_dir = os.path.join(curdir, "books")
 
 
-        logger.info(f"[ZBooker] inited ")
+        logger.info(f"[zbook] inited ")
 
 
     def on_handle_context(self, e_context: EventContext):
